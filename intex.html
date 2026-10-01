@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>خالتي تحفة</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #e00000;
+            --dark-red: #a90000;
+            --black: #111111;
+            --cream: #fff8e8;
+            --yellow: #ffd400;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--cream);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           CHECKERBOARD BACKGROUND
+        ========================= */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -10;
+
+            background:
+                linear-gradient(45deg, #111 25%, transparent 25%),
+                linear-gradient(-45deg, #111 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #111 75%),
+                linear-gradient(-45deg, transparent 75%, #111 75%);
+
+            background-size: 70px 70px;
+
+            background-position:
+                0 0,
+                0 35px,
+                35px -35px,
+                -35px 0;
+
+            opacity: 0.07;
+        }
+
+        /* =========================
+           DECORATIONS
+        ========================= */
+
+        .decoration {
+            position: fixed;
+            z-index: -1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .burger-deco {
+            font-size: 90px;
+            transform: rotate(-15deg);
+            opacity: .12;
+        }
+
+        .fries-deco {
+            font-size: 75px;
+            transform: rotate(12deg);
+            opacity: .12;
+        }
+
+        .drink-deco {
+            font-size: 80px;
+            transform: rotate(-10deg);
+            opacity: .10;
+        }
+
+        .star-deco {
+            color: var(--red);
+            font-size: 70px;
+            opacity: .12;
+        }
+
+        .sauce-deco {
+            font-size: 70px;
+            opacity: .10;
+        }
+
+        .d1 {
+            top: 100px;
+            left: 2%;
+        }
+
+        .d2 {
+            top: 430px;
+            right: 2%;
+        }
+
+        .d3 {
+            top: 900px;
+            left: 3%;
+        }
+
+        .d4 {
+            top: 1350px;
+            right: 3%;
+        }
+
+        .d5 {
+            top: 1750px;
+            left: 2%;
+        }
+
+        .d6 {
+            top: 2200px;
+            right: 3%;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .page {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 25px 18px 70px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            text-align: center;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 155px;
+            height: 155px;
+            object-fit: contain;
+            display: block;
+            margin: auto;
+            filter: drop-shadow(7px 7px 0 #111);
+        }
+
+        .restaurant-name {
+            display: inline-block;
+
+            font-size: clamp(40px, 7vw, 75px);
+            font-weight: 1000;
+
+            margin-top: 5px;
+            padding: 8px 22px;
+
+            background: white;
+            border: 5px solid var(--black);
+
+            box-shadow: 9px 9px 0 var(--red);
+
+            transform: rotate(-1deg);
+        }
+
+        .slogan {
+            margin-top: 22px;
+
+            display: inline-block;
+
+            background: var(--red);
+            color: white;
+
+            padding: 9px 25px;
+
+            border-radius: 50px;
+
+            font-size: 25px;
+            font-weight: 1000;
+
+            transform: rotate(2deg);
+
+            box-shadow: 5px 5px 0 var(--black);
+        }
+
+        .mini-decoration {
+            position: absolute;
+            font-size: 45px;
+        }
+
+        .mini-left {
+            left: 10%;
+            top: 100px;
+            transform: rotate(-20deg);
+        }
+
+        .mini-right {
+            right: 10%;
+            top: 100px;
+            transform: rotate(20deg);
+        }
+
+        /* =========================
+           SECTION TITLES
+        ========================= */
+
+        .section-title {
+            position: relative;
+
+            margin: 55px auto 25px;
+
+            width: fit-content;
+
+            font-size: 32px;
+            font-weight: 1000;
+
+            background: var(--black);
+            color: white;
+
+            padding: 10px 30px;
+
+            transform: rotate(-2deg);
+
+            box-shadow: 7px 7px 0 var(--red);
+        }
+
+        .section-title span {
+            color: var(--yellow);
+        }
+
+        /* =========================
+           MENU
+        ========================= */
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        /* =========================
+           FOOD CARD
+        ========================= */
+
+        .item {
+            position: relative;
+
+            background: rgba(255, 255, 255, .96);
+
+            border: 4px solid var(--black);
+
+            border-radius: 20px;
+
+            min-height: 145px;
+
+            padding: 15px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 18px;
+
+            box-shadow: 8px 8px 0 var(--black);
+
+            overflow: hidden;
+
+            transition: .2s;
+        }
+
+        .item:hover {
+            transform: translateY(-5px) rotate(-1deg);
+            box-shadow: 12px 12px 0 var(--red);
+        }
+
+        .item::before {
+            content: "";
+
+            position: absolute;
+
+            width: 70px;
+            height: 70px;
+
+            background: var(--red);
+
+            top: -35px;
+            right: -35px;
+
+            border-radius: 50%;
+        }
+
+        .item::after {
+            content: "";
+
+            position: absolute;
+
+            width: 12px;
+            height: 12px;
+
+            background: var(--yellow);
+
+            border: 3px solid var(--black);
+
+            border-radius: 50%;
+
+            bottom: 12px;
+            right: 15px;
+        }
+
+        /* =========================
+           FOOD IMAGES
+        ========================= */
+
+        .food-image {
+            width: 105px;
+            height: 105px;
+
+            flex-shrink: 0;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            border: 5px solid var(--black);
+
+            background: #eee;
+
+            box-shadow: 5px 5px 0 var(--red);
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .item:nth-child(2) .food-image {
+            width: 125px;
+            height: 125px;
+            border-radius: 18px;
+        }
+
+        .item:nth-child(3) .food-image {
+            width: 90px;
+            height: 90px;
+        }
+
+        .item:nth-child(4) .food-image {
+            width: 115px;
+            height: 115px;
+        }
+
+        .item:nth-child(5) .food-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+        }
+
+        .item:nth-child(6) .food-image {
+            width: 130px;
+            height: 100px;
+            border-radius: 50px;
+        }
+
+        .item:nth-child(7) .food-image {
+            width: 110px;
+            height: 110px;
+        }
+
+        .item:nth-child(8) .food-image {
+            width: 92px;
+            height: 92px;
+        }
+
+        .item:nth-child(9) .food-image {
+            width: 130px;
+            height: 130px;
+            border-radius: 20px;
+        }
+
+        .item:nth-child(10) .food-image {
+            width: 105px;
+            height: 105px;
+        }
+
+        .item:nth-child(11) .food-image {
+            width: 120px;
+            height: 95px;
+            border-radius: 50px;
+        }
+
+        .item:nth-child(12) .food-image {
+            width: 95px;
+            height: 120px;
+            border-radius: 18px;
+        }
+
+        .item:nth-child(13) .food-image {
+            width: 125px;
+            height: 105px;
+        }
+
+        .item:nth-child(14) .food-image {
+            width: 100px;
+            height: 125px;
+            border-radius: 20px;
+        }
+
+        .item:nth-child(15) .food-image {
+            width: 135px;
+            height: 105px;
+            border-radius: 20px;
+        }
+
+        /* =========================
+           FOOD NAME
+        ========================= */
+
+        .food-name {
+            position: relative;
+            z-index: 3;
+
+            color: var(--red);
+
+            font-size: clamp(21px, 3vw, 28px);
+
+            font-weight: 1000;
+
+            line-height: 1.1;
+
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           BADGES
+        ========================= */
+
+        .badge {
+            position: absolute;
+
+            top: 10px;
+            left: 10px;
+
+            background: var(--red);
+            color: white;
+
+            padding: 5px 9px;
+
+            border-radius: 8px;
+
+            font-size: 11px;
+            font-weight: 900;
+
+            transform: rotate(-5deg);
+
+            z-index: 5;
+        }
+
+        .badge.yellow {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        /* =========================
+           ROTATIONS
+        ========================= */
+
+        .item:nth-child(1) {
+            transform: rotate(-1deg);
+        }
+
+        .item:nth-child(2) {
+            transform: rotate(1.2deg);
+        }
+
+        .item:nth-child(3) {
+            transform: rotate(-1.5deg);
+        }
+
+        .item:nth-child(4) {
+            transform: rotate(.8deg);
+        }
+
+        .item:nth-child(5) {
+            transform: rotate(1.4deg);
+        }
+
+        .item:nth-child(6) {
+            transform: rotate(-.8deg);
+        }
+
+        .item:nth-child(7) {
+            transform: rotate(1.1deg);
+        }
+
+        .item:nth-child(8) {
+            transform: rotate(-1.2deg);
+        }
+
+        .item:nth-child(9) {
+            transform: rotate(.7deg);
+        }
+
+        .item:nth-child(10) {
+            transform: rotate(-1deg);
+        }
+
+        .item:nth-child(11) {
+            transform: rotate(1.3deg);
+        }
+
+        .item:nth-child(12) {
+            transform: rotate(-.7deg);
+        }
+
+        .item:nth-child(13) {
+            transform: rotate(1deg);
+        }
+
+        .item:nth-child(14) {
+            transform: rotate(-1.3deg);
+        }
+
+        .item:nth-child(15) {
+            transform: rotate(.8deg);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            margin-top: 70px;
+
+            text-align: center;
+
+            background: var(--black);
+
+            color: white;
+
+            padding: 25px;
+
+            border: 5px solid var(--red);
+
+            box-shadow: 8px 8px 0 var(--red);
+
+            transform: rotate(-1deg);
+        }
+
+        .footer-big {
+            font-size: 35px;
+            font-weight: 1000;
+            color: var(--yellow);
+        }
+
+        .footer-small {
+            margin-top: 8px;
+            font-size: 17px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .page {
+                padding: 18px 12px 50px;
+            }
+
+            .logo {
+                width: 125px;
+                height: 125px;
+            }
+
+            .restaurant-name {
+                font-size: 42px;
+                padding: 6px 15px;
+                box-shadow: 6px 6px 0 var(--red);
+            }
+
+            .slogan {
+                font-size: 20px;
+                padding: 8px 18px;
+            }
+
+            .mini-decoration {
+                display: none;
+            }
+
+            .menu {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .item {
+                min-height: 125px;
+                padding: 12px;
+                gap: 13px;
+            }
+
+            .food-image,
+            .item:nth-child(n) .food-image {
+                width: 95px;
+                height: 95px;
+            }
+
+            .item:nth-child(2) .food-image,
+            .item:nth-child(9) .food-image,
+            .item:nth-child(15) .food-image {
+                width: 110px;
+                height: 95px;
+            }
+
+            .food-name {
+                font-size: 22px;
+            }
+
+            .section-title {
+                font-size: 27px;
+            }
+
+            .footer-big {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- BACKGROUND DECORATIONS -->
+
+    <div class="decoration burger-deco d1">🍔</div>
+    <div class="decoration fries-deco d2">🍟</div>
+    <div class="decoration drink-deco d3">🥤</div>
+    <div class="decoration star-deco d4">★</div>
+    <div class="decoration sauce-deco d5">🌶️</div>
+    <div class="decoration burger-deco d6">🍔</div>
+
+
+    <div class="page">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div class="mini-decoration mini-left">🍟</div>
+            <div class="mini-decoration mini-right">🍔</div>
+
+            <!-- LOGO FROM IMG FOLDER -->
+            <img
+                src="img/img44.jpg"
+                class="logo"
+                alt="خالتي تحفة"
+            >
+
+            <h1 class="restaurant-name">
+                خالتي تحفة
+            </h1>
+
+            <div class="slogan">
+                وصل الدلع يووووو 🔥
+            </div>
+
+        </header>
+
+
+        <!-- SNACK -->
+
+        <h2 class="section-title">
+            🍗 <span>SNACK</span> 🍟
+        </h2>
+
+
+        <div class="menu">
+
+            <!-- 1 -->
+            <div class="item">
+
+                <span class="badge">
+                    HOT
+                </span>
+
+                <img
+                    src="img/img1.jpeg"
+                    class="food-image"
+                    alt="Fajita"
+                >
+
+                <div class="food-name">
+                    Fajita
+                </div>
+
+            </div>
+
+
+            <!-- 2 -->
+            <div class="item">
+
+                <span class="badge yellow">
+                    SPECIAL
+                </span>
+
+                <img
+                    src="img/img2.jpeg"
+                    class="food-image"
+                    alt="Chicken Fries"
+                >
+
+                <div class="food-name">
+                    Chicken Fries
+                </div>
+
+            </div>
+
+
+            <!-- 3 -->
+            <div class="item">
+
+                <img
+                    src="img/img3.jpeg"
+                    class="food-image"
+                    alt="Spicky Zinger"
+                >
+
+                <div class="food-name">
+                    Spicky Zinger
+                </div>
+
+            </div>
+
+
+            <!-- 4 -->
+            <div class="item">
+
+                <span class="badge">
+                    HOT
+                </span>
+
+                <img
+                    src="img/img4.jpeg"
+                    class="food-image"
+                    alt="Extra Sauce"
+                >
+
+                <div class="food-name">
+                    Extra Sauce
+                </div>
+
+            </div>
+
+
+            <!-- 5 -->
+            <div class="item">
+
+                <img
+                    src="img/img5.jpeg"
+                    class="food-image"
+                    alt="Bonless"
+                >
+
+                <div class="food-name">
+                    Bonless
+                </div>
+
+            </div>
+
+
+            <!-- 6 -->
+            <div class="item">
+
+                <img
+                    src="img/img6.jpeg"
+                    class="food-image"
+                    alt="Hotdogs"
+                >
+
+                <div class="food-name">
+                    Hotdogs
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BURGER SECTION -->
+
+        <h2 class="section-title">
+            🍔 <span>BURGERS</span> 🍔
+        </h2>
+
+
+        <div class="menu">
+
+            <!-- 7 -->
+            <div class="item">
+
+                <span class="badge yellow">
+                    SPECIAL
+                </span>
+
+                <img
+                    src="img/img7.jpeg"
+                    class="food-image"
+                    alt="Molotov Burger"
+                >
+
+                <div class="food-name">
+                    Molotov Burger
+                </div>
+
+            </div>
+
+
+            <!-- 8 -->
+            <div class="item">
+
+                <img
+                    src="img/img8.jpeg"
+                    class="food-image"
+                    alt="Th Chicken"
+                >
+
+                <div class="food-name">
+                    Th Chicken
+                </div>
+
+            </div>
+
+
+            <!-- 9 -->
+            <div class="item">
+
+                <span class="badge">
+                    HOT
+                </span>
+
+                <img
+                    src="img/img9.jpeg"
+                    class="food-image"
+                    alt="Tomahok Burger"
+                >
+
+                <div class="food-name">
+                    Tomahok Burger
+                </div>
+
+            </div>
+
+
+            <!-- 10 -->
+            <div class="item">
+
+                <img
+                    src="img/img10.jpeg"
+                    class="food-image"
+                    alt="Double Burger"
+                >
+
+                <div class="food-name">
+                    Double Burger
+                </div>
+
+            </div>
+
+
+            <!-- 11 -->
+            <div class="item">
+
+                <img
+                    src="img/img11.jpeg"
+                    class="food-image"
+                    alt="Classic Burger"
+                >
+
+                <div class="food-name">
+                    Classic Burger
+                </div>
+
+            </div>
+
+
+            <!-- 12 -->
+            <div class="item">
+
+                <img
+                    src="img/img12.jpeg"
+                    class="food-image"
+                    alt="Foma Burger"
+                >
+
+                <div class="food-name">
+                    Foma Burger
+                </div>
+
+            </div>
+
+
+            <!-- 13 -->
+            <div class="item">
+
+                <span class="badge yellow">
+                    NEW
+                </span>
+
+                <img
+                    src="img/img13.jpeg"
+                    class="food-image"
+                    alt="Daloußa Burger"
+                >
+
+                <div class="food-name">
+                    Daloußa Burger
+                </div>
+
+            </div>
+
+
+            <!-- 14 -->
+            <div class="item">
+
+                <img
+                    src="img/img14.jpeg"
+                    class="food-image"
+                    alt="Filler Burger"
+                >
+
+                <div class="food-name">
+                    Filler Burger
+                </div>
+
+            </div>
+
+
+            <!-- 15 -->
+            <div class="item">
+
+                <span class="badge">
+                    HOT
+                </span>
+
+                <img
+                    src="img/img15.jpeg"
+                    class="food-image"
+                    alt="Crepe Burger"
+                >
+
+                <div class="food-name">
+                    Crepe Burger
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            <div class="footer-big">
+                وصل الدلع يووووو 🔥
+            </div>
+
+            <div class="footer-small">
+                خالتي تحفة — Snack & Burger
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
